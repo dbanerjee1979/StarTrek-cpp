@@ -23,7 +23,7 @@ private:
     std::unordered_map<int, std::function<void()>> m_computer_commands;
     bool m_resign;
 public:
-    StarTrek() : 
+    StarTrek() :
         m_galaxy(m_rnd, *this),
         m_ent(m_galaxy.enterprise()),
         m_time(m_ent->time()),
@@ -47,8 +47,8 @@ public:
     }
 
     void run(bool& keep_playing) {
-        std::cout << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl 
-                  << std::endl << std::endl << std::endl << std::endl << std::endl;
+        std::cout << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl
+            << std::endl << std::endl << std::endl << std::endl << std::endl;
         std::cout << "                                    ,------*------," << std::endl;
         std::cout << "                    ,-------------   '---  ------' " << std::endl;
         std::cout << "                     '-------- --'      / /        " << std::endl;
@@ -63,7 +63,7 @@ public:
         std::cout << "     DESTROY THE " << m_galaxy.total_klingons() << " KLINGON WARSHIPS WHICH HAVE INVADED" << std::endl;
         std::cout << "   THE GALAXY BEFORE THEY CAN ATTACK FEDERATION HEADQUARTERS" << std::endl;
         std::cout << "   ON STARDATE " << m_time.deadline() << ".  THIS GIVES YOU " << m_time.max_days() << " DAYS.  THERE "
-                  << (plural ? "ARE" : "IS") << std::endl;
+            << (plural ? "ARE" : "IS") << std::endl;
         std::cout << "  " << m_galaxy.total_bases() << " STARBASE" << (plural ? "S" : "") << " IN THE GALAXY FOR RESUPPLYING YOUR SHIP" << std::endl;
         std::cout << std::endl;
 
@@ -155,13 +155,13 @@ public:
                     std::getline(std::cin, input);
                     return std::stod(input);
                 }
-            );
+                );
             short_range_scan();
         }
         catch (InvalidCourseException&) {
             std::cout << "   LT. SULU REPORTS, 'INCORRECT COURSE DATA, SIR!'" << std::endl;
         }
-        catch (InvalidWarpFactorException& w) {
+        catch (InvalidWarpFactorException & w) {
             if (w.damaged() && w.warp() > w.max()) {
                 std::cout << "WARP ENGINES ARE DAMAGED.  MAXIUM SPEED = WARP " << w.max() << std::endl;
             }
@@ -170,7 +170,7 @@ public:
                 std::cout << "WARP " << w.warp() << "!'" << std::endl;
             }
         }
-        catch (InsufficientNavigationEnergyException& e) {
+        catch (InsufficientNavigationEnergyException & e) {
             std::cout << "ENGINEERING REPORTS   'INSUFFICIENT ENERGY AVAILABLE";
             std::cout << "                       FOR MANEUVERING AT WARP" << e.warp() << "!'";
             int s = e.shields_available();
@@ -314,9 +314,9 @@ public:
                     }
                     std::cout << "               " << p << std::endl;
                 },
-                visitor,
-                missed
-            );
+                    visitor,
+                    missed
+                    );
             if (missed) {
                 std::cout << "TORPEDO MISSED" << std::endl;
                 short_range_scan();
@@ -354,7 +354,7 @@ public:
                         return std::stoi(m_input);
                     },
                     changed
-                );
+                        );
             }
             catch (InvalidShieldChangeException&) {
                 std::cout << "SHIELD CONTROL REPORTS  'THIS IS NOT THE FEDERATION TREASURY.'" << std::endl;
@@ -388,14 +388,14 @@ public:
                 read_cmd();
                 return m_cmd == "Y";
             },
-            [&](std::vector<std::pair<DamageType, double>>& damage) {
+                [&](std::vector<std::pair<DamageType, double>>& damage) {
                 std::cout << std::endl;
                 std::cout << "DEVICE              STATE OF REPAIR" << std::endl;
                 for (auto it = damage.begin(); it != damage.end(); it++) {
                     std::cout << std::setw(20) << std::left << it->first << std::setprecision(2) << it->second << std::endl;
                 }
             }
-        );
+            );
     }
 
     void computer() {
@@ -464,7 +464,7 @@ public:
                 std::cout << "***";
             }
             std::cout << " ";
-        });
+            });
         m_galaxy.visit_quadrants(visitor);
     }
 
@@ -539,7 +539,7 @@ public:
                 int right = w - n - left;
                 std::cout << " " << std::setw(left) << " " << std::setw(n) << quad.region() << std::setw(right) << " ";
             }
-        });
+            });
         m_galaxy.visit_quadrants(visitor);
     }
 
@@ -602,7 +602,7 @@ public:
     virtual void engines_shut_down_for_bad_navigation(const Position& sector) {
         std::cout << "WARP ENGINES SHUT DOWN AT SECTOR " << sector << " DUE TO BAD NAVAGATION" << std::endl;
     }
-    
+
     virtual void maneuver_energy_provided_by_shields() {
         std::cout << "SHIELD CONTROL SUPPLIES ENERGY TO COMPLETE THE MANEUVER." << std::endl;
     }

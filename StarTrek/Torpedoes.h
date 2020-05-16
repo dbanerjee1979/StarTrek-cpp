@@ -2,13 +2,13 @@
 
 class Torpedoes {
 private:
-	int m_curr;
-	int m_init;
+    int m_curr;
+    int m_init;
 public:
-	Torpedoes();
-	void replenish();
-	bool expended();
-	void consume();
-	int operator *() const;
+    Torpedoes();
+    void replenish();
+    bool expended();
+    void consume();
+    int operator *() const;
 };
 

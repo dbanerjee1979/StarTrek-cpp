@@ -153,7 +153,6 @@
     <ClCompile Include="Energy.cpp" />
     <ClCompile Include="Enterprise.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Events.cpp" />
     <ClCompile Include="Galaxy.cpp" />
     <ClCompile Include="Klingon.cpp" />
     <ClCompile Include="Position.cpp" />
