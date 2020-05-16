@@ -10,6 +10,7 @@
 #include "Galaxy.h"
 #include "Events.h"
 #include "Star.h"
+#include "Course.h"
 
 class StarTrek : public Events {
 private:
@@ -45,7 +46,7 @@ public:
         m_computer_commands[5] = std::bind(&StarTrek::galactic_map, this);
     }
 
-    bool run() {
+    void run(bool& keep_playing) {
         std::cout << std::endl << std::endl << std::endl << std::endl << std::endl << std::endl 
                   << std::endl << std::endl << std::endl << std::endl << std::endl;
         std::cout << "                                    ,------*------," << std::endl;
@@ -92,7 +93,7 @@ public:
                         std::cout << "  XXX  (TO RESIGN YOUR COMMAND)" << std::endl;
                     }
                 }
-                catch (NoKlingonsException) {
+                catch (NoKlingonsException&) {
                     std::cout << "SCIENCE OFFICER SPOCK REPORTS  'SENSORS SHOW NO ENEMY SHIPS" << std::endl;
                     std::cout << "                                IN THIS QUADRANT'" << std::endl;
                 }
@@ -124,14 +125,14 @@ public:
         std::cout << "THE END OF YOUR MISSION." << std::endl;
         std::cout << std::endl << std::endl;
         if (m_galaxy.total_bases() == 0) {
-            return false;
+            keep_playing = false;
         }
         else {
             std::cout << "THE FEDERATION IS IN NEED OF A NEW STARSHIP COMMANDER" << std::endl;
             std::cout << "FOR A SIMILAR MISSION -- IF THERE IS A VOLUNTEER," << std::endl;
             std::cout << "LET HIM STEP FORWARD AND ENTER 'AYE' ";
             read_cmd();
-            return m_cmd == "AYE";
+            keep_playing = m_cmd == "AYE";
         }
     }
 
@@ -157,10 +158,10 @@ public:
             );
             short_range_scan();
         }
-        catch (InvalidCourseException) {
+        catch (InvalidCourseException&) {
             std::cout << "   LT. SULU REPORTS, 'INCORRECT COURSE DATA, SIR!'" << std::endl;
         }
-        catch (InvalidWarpFactorException & w) {
+        catch (InvalidWarpFactorException& w) {
             if (w.damaged() && w.warp() > w.max()) {
                 std::cout << "WARP ENGINES ARE DAMAGED.  MAXIUM SPEED = WARP " << w.max() << std::endl;
             }
@@ -169,7 +170,7 @@ public:
                 std::cout << "WARP " << w.warp() << "!'" << std::endl;
             }
         }
-        catch (InsufficientNavigationEnergyException & e) {
+        catch (InsufficientNavigationEnergyException& e) {
             std::cout << "ENGINEERING REPORTS   'INSUFFICIENT ENERGY AVAILABLE";
             std::cout << "                       FOR MANEUVERING AT WARP" << e.warp() << "!'";
             int s = e.shields_available();
@@ -178,7 +179,7 @@ public:
                 std::cout << "                         PRESENTLY DEPLOYED TO SHIELDS." << std::endl;
             }
         }
-        catch (std::invalid_argument) {
+        catch (std::invalid_argument&) {
             // do nothing
         }
     }
@@ -224,7 +225,7 @@ public:
             m_ent->short_range_scan(visitor);
             std::cout << "---------------------------------" << std::endl;
         }
-        catch (ShortRangeSensorsInoperableException) {
+        catch (ShortRangeSensorsInoperableException&) {
             std::cout << "*** SHORT RANGE SENSORS ARE OUT ***" << std::endl;
         }
     }
@@ -257,7 +258,7 @@ public:
             m_ent->long_range_scan(visitor);
             std::cout << "-------------------" << std::endl;
         }
-        catch (LongRangeSensorsInoperableException) {
+        catch (LongRangeSensorsInoperableException&) {
             std::cout << "LONG RANGE SENSORS ARE INOPERABLE" << std::endl;
         }
     }
@@ -275,10 +276,10 @@ public:
                 }
             );
         }
-        catch (PhasersInoperableException) {
+        catch (PhasersInoperableException&) {
             std::cout << "PHASERS INOPERATIVE" << std::endl;
         }
-        catch (std::invalid_argument) {
+        catch (std::invalid_argument&) {
             // do nothing
         }
     }
@@ -321,20 +322,20 @@ public:
                 short_range_scan();
             }
         }
-        catch (TorpedoesExpendedException) {
+        catch (TorpedoesExpendedException&) {
             std::cout << "ALL PHOTON TORPEDOES EXPENDED" << std::endl;
         }
-        catch (TorpedoesInoperableException) {
+        catch (TorpedoesInoperableException&) {
             std::cout << "PHOTON TUBES ARE NOT OPERATIONAL" << std::endl;
         }
-        catch (InvalidCourseException) {
+        catch (InvalidCourseException&) {
             std::cout << "ENSIGN CHEKOV REPORTS,  'INCORRECT COURSE DATA, SIR!'" << std::endl;
         }
-        catch (StarbaseDestroyedException) {
+        catch (StarbaseDestroyedException&) {
             std::cout << "STARFLEET COMMAND REVIEWING YOUR RECORD TO CONSIDER" << std::endl;
             std::cout << "COURT MARTIAL!" << std::endl;
         }
-        catch (std::invalid_argument) {
+        catch (std::invalid_argument&) {
             // do nothing
         }
     }
@@ -355,7 +356,7 @@ public:
                     changed
                 );
             }
-            catch (InvalidShieldChangeException) {
+            catch (InvalidShieldChangeException&) {
                 std::cout << "SHIELD CONTROL REPORTS  'THIS IS NOT THE FEDERATION TREASURY.'" << std::endl;
             }
             if (changed) {
@@ -366,10 +367,10 @@ public:
                 std::cout << "<SHIELDS UNCHANGED>" << std::endl;
             }
         }
-        catch (ShieldControlInoperableException) {
+        catch (ShieldControlInoperableException&) {
             std::cout << "SHIELD CONTROL INOPERABLE" << std::endl;
         }
-        catch (std::invalid_argument) {
+        catch (std::invalid_argument&) {
             // do nothing
         }
     }
@@ -639,6 +640,6 @@ int main() {
     bool keep_playing;
     do {
         StarTrek game;
-        keep_playing = game.run();
+        game.run(keep_playing);
     } while (keep_playing);
 }

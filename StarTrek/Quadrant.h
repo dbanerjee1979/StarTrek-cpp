@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <stdexcept>
-#include <variant>
 #include "Entity.h"
 #include "Empty.h"
 #include "Klingon.h"

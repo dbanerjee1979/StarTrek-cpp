@@ -196,11 +196,11 @@ void Quadrant::traverse(const Course& c, int dist, std::shared_ptr<Quadrant>& qu
 
 void Quadrant::enterprise_attack(double amt) {
 	const Position& from = m_galaxy.enterprise()->sector();
-	amt = int(amt / m_num_klingons);
+	int each_amt = int(amt / m_num_klingons);
 	for (auto it = m_klingons.begin(); it != m_klingons.end(); it++) {
 		auto klg = *it;
 		if (!klg->is_destroyed()) {
-			klg->hit(amt, from);
+			klg->hit(each_amt, from);
 			if (klg->is_destroyed()) {
 				klingon_destroyed(klg->sector());
 			}
